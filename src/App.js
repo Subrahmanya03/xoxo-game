@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Board from "./components/Board";
 
 function App() {
+  const [tip, setTip] = useState("");
+
+  // Fetch a random tip from API
+  useEffect(() => {
+    fetch("https://api.adviceslip.com/advice")
+      .then((res) => res.json())
+      .then((data) => setTip(data.slip.advice))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ textAlign: "center", fontFamily: "Arial", marginTop: "50px" }}>
+      <h1>XO-XO Game</h1>
+      <Board />
+      {tip && <p style={{ marginTop: "20px", fontStyle: "italic", color: "green" }}>Tip: {tip}</p>}
     </div>
   );
 }
